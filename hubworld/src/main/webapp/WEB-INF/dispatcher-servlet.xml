@@ -1,30 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-   xmlns:context="http://www.springframework.org/schema/context"
-   xmlns:mvc="http://www.springframework.org/schema/mvc"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="
-   http://www.springframework.org/schema/beans     
-   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-   http://www.springframework.org/schema/context 
-   http://www.springframework.org/schema/context/spring-context-4.0.xsd
-   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-   
-   
-   <mvc:annotation-driven />
- 
-   <context:component-scan base-package="com.hubworld.controller"></context:component-scan>
-    
-   <bean id="viewResolver"
-   class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-   <property name="prefix">
-   	<value>/WEB-INF/views/</value>
-   </property>  
-   <property name="suffix">
-   <value>.jsp</value>   
-   </property>
-   </bean>   
-<mvc:resources mapping="/resources/**" location="/resources/"  
-	cache-period="31556926"/>
-   </beans>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/mvc
+	   http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	    http://www.springframework.org/schema/context
+	     http://www.springframework.org/schema/context/spring-context.xsd
+	      http://www.springframework.org/schema/tx 
+	       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	        http://www.springframework.org/schema/websocket
+		     http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="com.hubworld.controller"></context:component-scan>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<mvc:resources mapping="/resources/**" location="/resources/"
+		cache-period="31556926" />
+
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mysessionFactory" />
+	</bean>
+
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="anytimeconnect.niit@gmail.com" />
+		<property name="password" value="anytime@2014" />
+
+		<!-- The name of the property, following JavaBean naming conventions -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.port">587</prop>
+			</props>
+		</property>
+	</bean>
+	<websocket:message-broker
+		application-destination-prefix="/app">
+		<websocket:stomp-endpoint path="/chat">
+			<websocket:sockjs></websocket:sockjs>
+		</websocket:stomp-endpoint>
+		<websocket:simple-broker prefix="/topic" />
+	</websocket:message-broker>
+
+</beans>

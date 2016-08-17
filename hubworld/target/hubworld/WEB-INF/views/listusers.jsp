@@ -12,23 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<%-- <link rel="stylesheet"
-	href="<spring:url value="resources/css/bootstrap-theme.min.css" />" />
-<link rel="stylesheet"
-	href="<spring:url value="resources/css/bootstrap.min.css" />" />
 
-
-<link rel="stylesheet"
-	href="<spring:url value="resources/css/bootstrap.min.css" />" />
-<link rel="stylesheet"
-	href="<spring:url value="resources/css/style.css" />" />
-<script src="<u:url value="resources/js/jquery-1.12.3.min.js" />"></script>
-<script src="<u:url value="resources/js/bootstrap.min.js" />"></script>
-
-<script src="<u:url value="resources/js/controller.js" />"></script> --%>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-	<script src="resources/js/angular.min.js"></script>
 <script>
 var myApp = angular.module('myApp',[]);
 myApp.controller('getData', function($scope,$http,$location)
@@ -61,7 +45,7 @@ a:hover {
 						<div class="col-xs-10 col-sm-6 col-md-6 col-lg-3 pull-right">
 							<div class="form-group ">
 								<label for="search" class="cols-sm-12 control-label">Search
-									Products</label>
+									Users</label>
 								<div class="input-group ">
 									<span class="input-group-addon cols-sm-12"><i
 										class="fa fa-user fa" aria-hidden="true"></i></span> <input
@@ -77,7 +61,7 @@ a:hover {
 		</div>
 		<div class="panel-heading">
 			<div class="panel-title text-center">
-				<h1 class="title">Product List</h1>
+				<h1 class="title">User List</h1>
 				<hr />
 			</div>
 		</div>
@@ -88,32 +72,41 @@ a:hover {
 				<table
 					class="table-responsive table table-bordered table-condensed table table-hover">
 					<tr>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<th>User ID</th>
+						</sec:authorize>
 						<th>User Name</th>
 						<th>Gender</th>
-						<th>Enabled</th>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<th>Enabled</th>						
 						<th>Role</th>
+						</sec:authorize>
+						<th>Email</th>
 						<th>User Picture</th>
-						
-						
-							
+						<th>Check out</th>
+						<th>Add friend</th>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">						
 							<th>Delete</th>
-					
+					</sec:authorize>
 					</tr>
 					<tr ng-repeat="group in productdata | filter:searchKeyword	">
 
-
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<td>{{group.userId}}</td>
+						</sec:authorize>
 						<td>{{group.username}}</td>
 						<td>{{group.gender}}</td>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<td>{{group.enabled}}</td>
 						<td>{{group.role}}</td>
-
-						<td><img style="width: 30px; height: 30px"
-							src="{{group.image}}" /></td>
-						
+						</sec:authorize>
+						<td>{{group.email}}</td>
+						<td><img style="width:75px;height:75px" src="{{group.image}}"></td>
+						<td><a href="viewprofile--{{group.userId}}--user">Profile</a></td>
+						<td>Add Friend</td>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<td><a href="deleteuser--{{group.userId}}--user"><mark>Delete</mark></a></td>
-						
+						</sec:authorize>
 					</tr>
 				</table>
 			</div>

@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,21 +43,19 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		User user = session.load(User.class, new Integer(userId));
 		logger.info("User loaded successfully" + user);
+		session.flush();
 		return user;
 	}
 
-	public User getByName(String userName) {
-		String hql = "from User where username=" + "'" + userName + "'";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-
+	public User getByName(String username) {
+		Session session=sessionFactory.openSession();
+		Criteria c = session.createCriteria(User.class);
+		c.add(Restrictions.eq("username", username));
 		@SuppressWarnings("unchecked")
-		List<User> listCategory = (List<User>) query.list();
+		List<User> user = c.list();
+		
+		return user.get(0);
 
-		if (listCategory != null && !listCategory.isEmpty()) {
-			return listCategory.get(0);
-		}
-
-		return null;
 	}
 
 	public void saveOrUpdate(User user) {

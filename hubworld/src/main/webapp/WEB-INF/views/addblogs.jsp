@@ -9,6 +9,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add blog page</title>
+<link rel="stylesheet" type="text/css" href="resources/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="resources/src/bootstrap-wysihtml5.css" />
+<script src="resources/lib/js/wysihtml5-0.3.0.js"></script>
+    <script src="resources/lib/js/jquery-1.7.2.min.js"></script>
+    <script src="resources/lib/js/bootstrap.min.js"></script>
+    <script src="resources/src/bootstrap3-wysihtml5.js"></script>
+
+    <style type="text/css" media="screen">
+        .btn.jumbo {
+            font-size: 20px;
+            font-weight: normal;
+            padding: 14px 24px;
+            margin-right: 10px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+    </style>
+
 </head>
 <body>
 <div class="container">
@@ -24,7 +43,7 @@
 				</div>
 			</spring:bind>
 
-			<spring:bind path="blogCategory">
+			<%-- <spring:bind path="blogCategory">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 			<form:select path="blogCategory">
 				 	
@@ -34,15 +53,28 @@
                                 
 					<form:errors path="blogCategory"></form:errors>
 				</div>
+			</spring:bind> --%>
+			
+			<spring:bind path="blogCategory">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+			<form:select path="blogCategory">
+				 	
+				<form:options items="${blogOptions}" />
+			
+				       </form:select>
+                                
+					<form:errors path="blogCategory"></form:errors>
+				</div>
 			</spring:bind>
 
 			<spring:bind path="blogDescription">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<form:textarea rows="5" cols="8" path="blogDescription" class="form-control"
+					<form:textarea rows="5" cols="8" path="blogDescription" class="textarea form-control"
 						placeholder="Write something"></form:textarea>
 					<form:errors path="blogDescription"></form:errors>
 				</div>
 			</spring:bind>
+			
 			<%-- <spring:bind path="image">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
 					<input type="file" path="image">
@@ -53,5 +85,13 @@
 		</form:form>
 
 	</div>
+	<script>
+    $('.textarea').wysihtml5();
+</script>
+
+<script type="text/javascript" charset="utf-8">
+    $(prettyPrint);
+</script>
+	
 </body>
 </html>

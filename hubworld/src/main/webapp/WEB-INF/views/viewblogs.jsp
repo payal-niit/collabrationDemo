@@ -20,21 +20,13 @@
 	href="<spring:url value="resources/css/bootstrap.min.css" />" />
 <link rel="stylesheet"
 	href="<spring:url value="resources/css/style.css" />" />
-<script src="<u:url value="resources/js/jquery-1.12.3.min.js" />"></script>
-<script src="<u:url value="resources/js/bootstrap.min.js" />"></script>
-
-<script src="<u:url value="resources/js/controller.js" />"></script>
-<script src="<u:url value="resources/js/angular.min.js" />"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
 <script>
-	var myApp = angular.module('myApp', []);
+	var myApp = angular.module('myApp', ['ngSanitize']);
 	myApp.controller('getData', function($scope, $http, $location) {
 		$scope.searchKeyword = location.search.substr(15);
 		$scope.productdata = ${blog};
-
-		//alert($scope.productdata);
-
 	});
 </script>
 </head>
@@ -59,13 +51,21 @@
 					<div class="panel panel-danger">
 					<div class="panel-body">
 						<p>
-							<span class="h3"> {{productdata.blogDescription}}</span></p>
+							<span class="h3" ng-bind-html="productdata.blogDescription"></span></p>
 					</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<p align="right">Created by: {{productdata.username}}</p>
+
+<form:form action="blogtoapprove?blogId=${blog.blogId}" modelAttribute="blogApproved" commandName="blogApproved">
+		<input type="hidden" value="${blog.blogId}"/>
+		
+			
+			<button type="submit" class="btn-lg btn-primary pull-right">Approved</button>
+			
+			</form:form>
 
 
 	</div>

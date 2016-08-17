@@ -2,11 +2,13 @@ package com.hubworld.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -22,14 +24,19 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int userId;
 	@NotEmpty(message = "Username cannot be empty")
+	@Column(name = "username",unique=true)
 	private String username;
 	@Size(min = 8, max = 15, message = "password should be minimum 8 characters")
 	private String password;
 	private String gender;
-
+	
+	@Transient
 	private MultipartFile image;
 	private String role;
 	private boolean enabled;
+	
+	@Pattern(regexp=".+@.+\\..+", message="Wrong email ID!")
+	private String email;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,11 +96,20 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String toString()
 	{
 		
-		return "{userId : '" + userId + "'," + "username : '" + username + "'," + "password :'" + password + "'," + "role :'" + role + "'," + "enabled :'" + enabled + "'," + "gender :'" + gender + "',"+"image :'resources/images/" +userId + ".jpg'}";
+		return "{userId : '" + userId + "'," + "username : '" + username + "'," + "password :'" + password + "'," + "role :'" + role + "'," + "enabled :'" + enabled + "'," + "gender :'" + gender + "'," + "email :'" + email + "',"+"image :'resources/images/" +userId + ".jpg'}";
 	}
 
 

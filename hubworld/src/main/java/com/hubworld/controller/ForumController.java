@@ -57,7 +57,7 @@ public class ForumController {
 			
 			Date date=new Date();
 			forum.setDateOfCreation(date);
-
+			forumService.saveOrUpdate(forum);
 			MultipartFile productImage = forum.getForumImage();
 			String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 			path = Paths.get(rootDirectory + "/resources/images/" + forum.getForumId() + ".jpg");
@@ -65,13 +65,14 @@ public class ForumController {
 			if (productImage != null && !productImage.isEmpty()) {
 				try {
 					productImage.transferTo(new File(path.toString()));
+					System.out.println("Image successfully uploaded" + path);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					throw new RuntimeException("Product image saving failed", ex);
 				}
 			}
 
-			forumService.saveOrUpdate(forum);
+			
 		}
 		return new ModelAndView("redirect:/allforums");
 			// return "redirect:/uploadFile";
@@ -80,14 +81,14 @@ public class ForumController {
 
 	
 
-	@RequestMapping(value = "/allforums", method = RequestMethod.GET)
+	@RequestMapping(value = "/allforums")
 	public String getBlogList(Model model) {
 		model.addAttribute("forumList", this.forumService.list());
 		return "forumlist";
 
 	}
 	
-	@RequestMapping("/viewblogdetail--{forumId}--forum")
+	@RequestMapping("/viewforumdetail--{forumId}--forum")
 	public ModelAndView viewproductdetails(@ModelAttribute Forum forum,@PathVariable int forumId)
 	{
 		

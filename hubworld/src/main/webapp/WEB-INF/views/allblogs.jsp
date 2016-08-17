@@ -58,7 +58,7 @@
 			</div>
 		</div>
 		<table
-			class="table table-striped table-inverse table-bordered table-hover table-sm"
+			class="table"
 			style="text-align: center;">
 			<tr scope="row" align="center">
 				<th>User Name</th>

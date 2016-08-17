@@ -29,7 +29,7 @@
 	<div class="container">
 
 		<form:form action="add" method="POST" commandName="user"
-			class="form-signin">
+			class="form-signin" enctype="multipart/form-data">
 			<h2 class="form-signin-heading">Create your account</h2>
 			<spring:bind path="username">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -53,13 +53,20 @@
 					Male
 					<form:radiobutton path="gender" value="female" name="gen" />
 					Female
-
-
 				</div>
 			</spring:bind>
+			
+				<spring:bind path="email">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<form:input type="text" path="email" class="form-control"
+						placeholder="email"></form:input>
+					<form:errors path="email"></form:errors>
+				</div>
+			</spring:bind>
+			
 			<spring:bind path="image">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<input type="file" path="image">
+					<form:input type="file" path="image" />
 				</div>
 			</spring:bind>
 

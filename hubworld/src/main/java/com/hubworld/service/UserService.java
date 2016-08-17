@@ -10,6 +10,7 @@ import com.hubworld.dao.UserDAOImpl;
 import com.hubworld.model.User;
 
 @Service
+@Transactional
 public class UserService {
 	@Autowired(required=true)
 	private UserDAOImpl userDAO;
@@ -23,29 +24,37 @@ public class UserService {
 		this.userDAO = userDAO;
 	}
 
-	@Transactional
+	
 	public List<User> list() {
 		return userDAO.list();
 	}
 	
-	@Transactional
+	
 	public User getUserById(int userId) {
 		return userDAO.getUserById(userId);
 	}
 	
-	@Transactional
-	public User getByName(String userName) {
-		return userDAO.getByName(userName);
+	
+	public User getByName(String username) {
+		return userDAO.getByName(username);
 	}
 	
-	@Transactional
+	
 	public void saveOrUpdate(User user) {
 		userDAO.saveOrUpdate(user);
 	}
 	
-	@Transactional
+
 	public void delete(int userId) {
 		userDAO.delete(userId);
+	}
+	
+	public int getById(String userName) {
+		return userDAO.getByName(userName).getUserId();
+	}
+	
+	public String getName(int userId) {
+		return userDAO.getUserById(userId).getUsername();
 	}
 	
 

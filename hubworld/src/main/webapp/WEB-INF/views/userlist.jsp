@@ -11,14 +11,12 @@
 <title>Insert title here</title>
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/common.css" rel="stylesheet">
-<script src="resources/js/angular.min.js"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
 <script>
 		var myApp = angular.module('myApp',[]);
 		myApp.controller('getData', function($scope,$http,$location)
 		 { 
-			$scope.searchKeyword=location.search.substr(8);
+			$scope.searchKeyword=location.search.substr(9);
 			$scope.userdata = ${userList};
 			//alert($scope.productdata);
 		 
